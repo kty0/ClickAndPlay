@@ -1,15 +1,13 @@
 package fr.epita.infrastructure.persistence.seance.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import fr.epita.infrastructure.persistence.table.entity.TableJPAEntity;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "seances")
@@ -32,6 +30,8 @@ public class SeanceJPAEntity {
     private int durationInHours;
     @Embedded
     private SalleJPAEntity salle;
+    @OneToMany(mappedBy = "seance", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TableJPAEntity> tables = new ArrayList<>();
 
     public SeanceJPAEntity() {
     }

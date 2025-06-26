@@ -28,21 +28,55 @@ public class Table {
         validate();
     }
 
+    public Table(Seance seance, String gameName, int maxPlayers,  LocalDateTime startDateTime, int estimatedDurationInHours) {
+        this.seance = seance;
+        this.gameName = gameName;
+        this.maxPlayers = maxPlayers;
+        this.startDateTime = startDateTime;
+        this.estimatedDurationInHours = estimatedDurationInHours;
+
+        validate();
+    }
+
     private void validate() {
         if (seance == null) {
-            throw new IllegalArgumentException("Seance must not be null");
+            throw new TableException("Seance must not be null");
         }
         if (gameName == null || gameName.isBlank()) {
-            throw new IllegalArgumentException("Game name must not be null or blank");
+            throw new TableException("Game name must not be null or blank");
         }
         if (maxPlayers <= 0) {
-            throw new IllegalArgumentException("Max players must be greater than 0");
+            throw new TableException("Max players must be greater than 0");
         }
         if (startDateTime == null || startDateTime.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Start date and time must be in the future");
+            throw new TableException("Start date and time must be in the future");
         }
         if (estimatedDurationInHours <= 0) {
-            throw new IllegalArgumentException("Estimated duration in hours must be positive");
+            throw new TableException("Estimated duration in hours must be positive");
         }
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public Seance getSeance() {
+        return seance;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public int getEstimatedDurationInHours() {
+        return estimatedDurationInHours;
     }
 }

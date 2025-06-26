@@ -21,8 +21,7 @@ public class SeanceJPARepository implements SeanceRepository {
 
     private final SpringDataSeanceRepository springDataJpaSeanceRepository;
 
-    public SeanceJPARepository(
-            SpringDataSeanceRepository springDataJpaSeanceRepository) {
+    public SeanceJPARepository(SpringDataSeanceRepository springDataJpaSeanceRepository) {
         this.springDataJpaSeanceRepository = springDataJpaSeanceRepository;
     }
 

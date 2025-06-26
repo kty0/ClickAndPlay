@@ -1,4 +1,4 @@
-package fr.epita.domain.seance.port;
+package fr.epita.domain.common.port;
 
 import java.util.List;
 

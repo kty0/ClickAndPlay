@@ -3,13 +3,12 @@ package fr.epita.application.seance.service;
 import fr.epita.application.seance.exception.SeanceNotFoundException;
 import fr.epita.application.seance.utils.SeanceConverter;
 import fr.epita.domain.seance.model.Seance;
-import fr.epita.domain.seance.port.EmailSender;
+import fr.epita.domain.common.port.EmailSender;
 import fr.epita.domain.seance.port.SeanceRepository;
 import fr.epita.domain.seance.service.SeanceVerificationService;
 import fr.epita.presentation.seance.dto.SeanceCreateDto;
 import fr.epita.presentation.seance.dto.SeanceDto;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.Email;
 
 import org.springframework.stereotype.Service;
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import fr.epita.domain.seance.port.EmailSender;;
+import fr.epita.domain.common.port.EmailSender;;
 
 @Service
 public class EmailSenderService implements EmailSender {
@@ -12,7 +12,6 @@ public class EmailSenderService implements EmailSender {
     @Override
     public void sendEmail(String email, String subject, String message) {
         System.out.println("--- Sending email ---");
-        ;
         System.out.println("To : " + email);
         System.out.println("Subject : " + subject);
         System.out.println("Message : " + message);

@@ -35,8 +35,8 @@ public class SecurityConfig {
                 //         .permitAll()) // Enable form login
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll() // Allow access to H2 console
-                        .requestMatchers( "/api/seances", "/api/seances/**").hasRole("ADMIN") // Only animateurs can
-                                                                                              // create seances
+                        .requestMatchers("/api/seances", "/api/seances/**").hasRole("ADMIN") // Only animateurs can create seances
+                        .requestMatchers("/api/tables", "api/tables/**").hasRole("ADMIN")
                         .anyRequest().permitAll())
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/h2-console/**", "/api/**"))
