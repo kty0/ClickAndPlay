@@ -27,7 +27,7 @@ public class SeanceConverter {
         );
     }
 
-    public static SeanceDto seanceDtoFromSeance(Seance seance) {
+    public static SeanceDto seanceDTOFromSeance(Seance seance) {
         return new SeanceDto(
                 seance.getId(),
                 seance.getName(),

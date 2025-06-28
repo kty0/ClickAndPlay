@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,16 +28,23 @@ public class SecurityConfig {
         BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
         entryPoint.setRealmName("My Application Realm");
         return http
-                .formLogin(login -> login
-                        .disable()) // Disable form login
+                .formLogin(AbstractHttpConfigurer::disable) // Disable form login
                 .httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(entryPoint))
                 // .formLogin(login -> login
                 //         .defaultSuccessUrl("/swagger-ui.html", true) // Redirect to Swagger UI on successful login
                 //         .permitAll()) // Enable form login
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll() // Allow access to H2 console
-                        .requestMatchers("/api/seances", "/api/seances/**").hasRole("ADMIN") // Only animateurs can create seances
-                        .requestMatchers("/api/tables", "api/tables/**").hasRole("ADMIN")
+
+                        .requestMatchers("/api/seances", "/api/seances/**").hasRole("ADMIN")
+                        .requestMatchers("/api/tables", "/api/tables/**").hasRole("ADMIN")
+                        .requestMatchers("/api/players", "/api/players/**").hasRole("ADMIN")
+
+                        .requestMatchers("/api/tables", "/api/tables/**").hasRole("ANIMATEUR")
+
+                        .requestMatchers(HttpMethod.GET, "/api/seances", "/api/seances/**").hasAnyRole("JOUEUR_NC", "JOUEUR_C")
+                        .requestMatchers(HttpMethod.GET, "/api/tables", "/api/tables/**").hasAnyRole("JOUEUR_NC", "JOUEUR_C")
+
                         .anyRequest().permitAll())
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/h2-console/**", "/api/**"))

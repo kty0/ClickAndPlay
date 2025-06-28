@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/tables")
 public class TableController {
     private final TableService tableService;
+
     public TableController(TableService tableService) {
         this.tableService = tableService;
     }

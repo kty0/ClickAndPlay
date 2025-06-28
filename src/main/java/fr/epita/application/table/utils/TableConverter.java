@@ -27,7 +27,7 @@ public class TableConverter {
         );
     }
 
-    public static TableDto tableDtoFromTable(Table table) {
+    public static TableDto tableDTOFromTable(Table table) {
         return new TableDto(
                 table.getId(),
                 table.getSeance().getId(),

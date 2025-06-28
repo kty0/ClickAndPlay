@@ -42,7 +42,7 @@ public class TableService {
         tableVerificationService.verifyTable(existingTables, seance);
 
         Table savedTable = tableRepository.save(table);
-        return TableConverter.tableDtoFromTable(savedTable);
+        return TableConverter.tableDTOFromTable(savedTable);
     }
 
     @Transactional
@@ -56,7 +56,7 @@ public class TableService {
         tableVerificationService.verifyTable(existingTables, seance);
 
         Table savedTable = tableRepository.save(table);
-        return TableConverter.tableDtoFromTable(savedTable);
+        return TableConverter.tableDTOFromTable(savedTable);
     }
 
     @Transactional
@@ -74,17 +74,17 @@ public class TableService {
 
     public List<TableDto> getAllTables() {
         List<Table> tables = tableRepository.findAll();
-        List<TableDto> tableDto = new ArrayList<>();
+        List<TableDto> tableDTOs = new ArrayList<>();
         for (Table table : tables) {
-            tableDto.add(TableConverter.tableDtoFromTable(table));
+            tableDTOs.add(TableConverter.tableDTOFromTable(table));
         }
 
-        return tableDto;
+        return tableDTOs;
     }
 
     public TableDto getTable(final String id) {
         Table table = tableRepository.findById(id)
                 .orElseThrow(() -> new TableNotFoundException("Table not found with ID: " + id));
-        return TableConverter.tableDtoFromTable(table);
+        return TableConverter.tableDTOFromTable(table);
     }
 }

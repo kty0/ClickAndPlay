@@ -35,7 +35,7 @@ public class SeanceService {
         seanceVerificationService.checkSeanceOverlap(seance,seances);
         Seance savedSeance = seanceRepository.save(seance);
 
-        return SeanceConverter.seanceDtoFromSeance(savedSeance);
+        return SeanceConverter.seanceDTOFromSeance(savedSeance);
     }
 
     @Transactional
@@ -46,7 +46,7 @@ public class SeanceService {
         seanceVerificationService.checkSeanceOverlap(seance,seances);
         Seance savedSeance = seanceRepository.update(seance);
 
-        return SeanceConverter.seanceDtoFromSeance(savedSeance);
+        return SeanceConverter.seanceDTOFromSeance(savedSeance);
     }
 
     @Transactional
@@ -66,11 +66,11 @@ public class SeanceService {
 
     public List<SeanceDto> getAllSeances() {
         List<Seance> seances = seanceRepository.findAll();
-        List<SeanceDto> seancesDto = new ArrayList<>();
+        List<SeanceDto> seancesDTOs = new ArrayList<>();
         for (Seance seance : seances) {
-            seancesDto.add(SeanceConverter.seanceDtoFromSeance(seance));
+            seancesDTOs.add(SeanceConverter.seanceDTOFromSeance(seance));
         }
-        return seancesDto;
+        return seancesDTOs;
     }
 
     public SeanceDto getSeance(String id) {
@@ -78,6 +78,6 @@ public class SeanceService {
         if (seance == null) {
             throw new SeanceNotFoundException("the seance with id " + id + " does not exist");
         }
-        return SeanceConverter.seanceDtoFromSeance(seance);
+        return SeanceConverter.seanceDTOFromSeance(seance);
     }
 }
