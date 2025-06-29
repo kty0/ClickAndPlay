@@ -1,8 +1,12 @@
 package fr.epita.domain.table.model;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
+import fr.epita.domain.player.model.Player;
 import fr.epita.domain.seance.model.Seance;
 import fr.epita.domain.table.exception.TableException;
 
@@ -14,6 +18,7 @@ public class Table {
     private LocalDateTime startDateTime;
     private int estimatedDurationInHours;
     private boolean free;
+    private Set<Player> players = new HashSet<>();
 
     public Table(UUID id, Seance seance, String gameName, int maxPlayers, LocalDateTime startDateTime, int estimatedDurationInHours, boolean free) {
         if (id == null) {
@@ -59,6 +64,22 @@ public class Table {
         }
     }
 
+    public boolean addPlayer(Player player) {
+        return players.add(player);
+    }
+
+    public boolean removePlayer(Player player) {
+        return players.remove(player);
+    }
+
+    public boolean isFull() {
+        return players.size() == maxPlayers;
+    }
+
+    public boolean isPlayerRegistered(Player player) {
+        return players.contains(player);
+    }
+
     public UUID getId() {
         return id;
     }
@@ -85,5 +106,26 @@ public class Table {
 
     public boolean isFree() {
         return free;
+    }
+
+    public Set<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Table table = (Table) o;
+        return Objects.equals(id, table.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

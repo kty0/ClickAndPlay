@@ -50,6 +50,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/players/**").hasAnyRole("JOUEUR_NC", "JOUEUR_C")
                         .requestMatchers("/api/players", "/api/players/**").hasRole("ADMIN")
 
+                        // -- TABLE REGISTRATIONS ---
+                        .requestMatchers("/api/table-registrations", "/api/table-registrations/**").hasAnyRole("JOUEUR_NC", "JOUEUR_C")
+
                         .anyRequest().permitAll())
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/h2-console/**", "/api/**"))

@@ -1,7 +1,10 @@
 package fr.epita.domain.player.model;
 
 import fr.epita.domain.player.exception.PlayerException;
+import fr.epita.domain.table.model.Table;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -9,13 +12,14 @@ public class Player {
     private UUID id;
     private String email;
     private boolean member; // cotisant
-    private boolean firstSeance;
+    private boolean firstSeanceUsed;
+    private Set<Table> tables = new HashSet<>();
 
-    public Player(UUID id, String email, boolean member, boolean firstSeance) {
+    public Player(UUID id, String email, boolean member, boolean firstSeanceUsed) {
         this.id = id;
         this.email = email;
         this.member = member;
-        this.firstSeance = firstSeance;
+        this.firstSeanceUsed = firstSeanceUsed;
 
         if (id == null) {
             throw new PlayerException("Player id must not be null");
@@ -24,10 +28,10 @@ public class Player {
         validate();
     }
 
-    public Player(String email, boolean member, boolean firstSeance) {
+    public Player(String email, boolean member, boolean firstSeanceUsed) {
         this.email = email;
         this.member = member;
-        this.firstSeance = firstSeance;
+        this.firstSeanceUsed = firstSeanceUsed;
     }
 
     private void validate() {
@@ -45,6 +49,10 @@ public class Player {
         System.out.println("Player " + id + " is now member");
     }
 
+    public void useFirstSeance() {
+        firstSeanceUsed = true;
+    }
+
     public UUID getId() {
         return id;
     }
@@ -57,7 +65,28 @@ public class Player {
         return member;
     }
 
-    public boolean isFirstSeance() {
-        return firstSeance;
+    public boolean isFirstSeanceUsed() {
+        return firstSeanceUsed;
+    }
+
+    public Set<Table> getTables() {
+        return tables;
+    }
+
+    public void setTables(Set<Table> tables) {
+        this.tables = tables;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(id, player.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

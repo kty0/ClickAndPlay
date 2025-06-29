@@ -18,7 +18,7 @@ public class PlayerConverter {
                 playerDto.getId(),
                 playerDto.getEmail(),
                 playerDto.isMember(),
-                playerDto.isFirstSeance()
+                playerDto.isFirstSeanceUsed()
         );
     }
 
@@ -27,7 +27,7 @@ public class PlayerConverter {
                 player.getId(),
                 player.getEmail(),
                 player.isMember(),
-                player.isFirstSeance()
+                player.isFirstSeanceUsed()
         );
     }
 }

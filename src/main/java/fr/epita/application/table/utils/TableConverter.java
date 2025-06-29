@@ -37,7 +37,8 @@ public class TableConverter {
                 table.getMaxPlayers(),
                 table.getStartDateTime(),
                 table.getEstimatedDurationInHours(),
-                table.isFree()
+                table.isFree(),
+                table.getMaxPlayers() - table.getPlayers().size()
         );
     }
 }

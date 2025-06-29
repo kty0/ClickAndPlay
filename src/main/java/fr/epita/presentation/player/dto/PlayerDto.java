@@ -6,13 +6,13 @@ public class PlayerDto {
     private UUID id;
     private String email;
     private boolean member;
-    private boolean firstSeance;
+    private boolean firstSeanceUsed;
 
-    public PlayerDto(UUID id, String email, boolean member, boolean firstSeance) {
+    public PlayerDto(UUID id, String email, boolean member, boolean firstSeanceUsed) {
         this.id = id;
         this.email = email;
         this.member = member;
-        this.firstSeance = firstSeance;
+        this.firstSeanceUsed = firstSeanceUsed;
     }
 
     public UUID getId() {
@@ -39,11 +39,11 @@ public class PlayerDto {
         this.member = member;
     }
 
-    public boolean isFirstSeance() {
-        return firstSeance;
+    public boolean isFirstSeanceUsed() {
+        return firstSeanceUsed;
     }
 
-    public void setFirstSeance(boolean firstSeance) {
-        this.firstSeance = firstSeance;
+    public void setFirstSeanceUsed(boolean firstSeanceUsed) {
+        this.firstSeanceUsed = firstSeanceUsed;
     }
 }

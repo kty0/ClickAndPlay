@@ -1,9 +1,13 @@
 package fr.epita.infrastructure.persistence.table.entity;
 
+import fr.epita.infrastructure.persistence.player.entity.PlayerJPAEntity;
 import fr.epita.infrastructure.persistence.seance.entity.SeanceJPAEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +36,13 @@ public class TableJPAEntity {
     private int estimatedDurationInHours;
     @Column
     private boolean free;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "table_players",
+            joinColumns = @JoinColumn(name = "table_id"),
+            inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
+    private Set<PlayerJPAEntity> players = new HashSet<>();
 
     public TableJPAEntity() {}
 
@@ -87,5 +98,24 @@ public class TableJPAEntity {
     }
     public void setFree(boolean free) {
         this.free = free;
+    }
+    public Set<PlayerJPAEntity> getPlayers() {
+        return players;
+    }
+    public void setPlayers(Set<PlayerJPAEntity> players) {
+        this.players = players;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TableJPAEntity that = (TableJPAEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

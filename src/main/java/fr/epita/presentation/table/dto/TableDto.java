@@ -11,8 +11,9 @@ public class TableDto {
     private LocalDateTime startDateTime;
     private int estimatedDurationInHours;
     private boolean free;
+    private int remainingCapacity;
 
-    public TableDto(UUID id, UUID seanceId, String gameName, int maxPlayers, LocalDateTime startDateTime, int estimatedDurationInHours, boolean free) {
+    public TableDto(UUID id, UUID seanceId, String gameName, int maxPlayers, LocalDateTime startDateTime, int estimatedDurationInHours, boolean free, int remainingCapacity) {
         this.id = id;
         this.seanceId = seanceId;
         this.gameName = gameName;
@@ -20,6 +21,7 @@ public class TableDto {
         this.startDateTime = startDateTime;
         this.estimatedDurationInHours = estimatedDurationInHours;
         this.free = free;
+        this.remainingCapacity = remainingCapacity;
     }
 
     public UUID getId() {
@@ -48,5 +50,9 @@ public class TableDto {
 
     public boolean isFree() {
         return free;
+    }
+
+    public int getRemainingCapacity() {
+        return remainingCapacity;
     }
 }
