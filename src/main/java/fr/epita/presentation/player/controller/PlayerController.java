@@ -1,6 +1,5 @@
 package fr.epita.presentation.player.controller;
 
-import fr.epita.application.player.exception.InvalidRoleAssignmentException;
 import fr.epita.application.player.exception.PlayerNotFoundException;
 import fr.epita.application.player.service.PlayerService;
 import fr.epita.domain.player.exception.PlayerException;
@@ -64,7 +63,7 @@ public class PlayerController {
         return ResponseEntity.ok(updatedPlayer);
     }
 
-    @ExceptionHandler({PlayerException.class, InvalidRoleAssignmentException.class})
+    @ExceptionHandler({PlayerException.class})
     public ResponseEntity<String> handlePlayerException(RuntimeException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }

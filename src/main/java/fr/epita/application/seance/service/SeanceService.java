@@ -2,6 +2,7 @@ package fr.epita.application.seance.service;
 
 import fr.epita.application.seance.exception.SeanceNotFoundException;
 import fr.epita.application.seance.utils.SeanceConverter;
+import fr.epita.application.table.service.TableService;
 import fr.epita.domain.seance.model.Seance;
 import fr.epita.domain.common.port.EmailSender;
 import fr.epita.domain.seance.port.SeanceRepository;
@@ -20,11 +21,13 @@ public class SeanceService {
     private final SeanceRepository seanceRepository;
     private final SeanceVerificationService seanceVerificationService;
     private final EmailSender emailSender;
+    private final TableService tableService;
 
-    public SeanceService(SeanceRepository seanceRepository, EmailSender emailSender) {
+    public SeanceService(SeanceRepository seanceRepository, EmailSender emailSender, TableService tableService) {
         this.seanceRepository = seanceRepository;
         this.seanceVerificationService = new SeanceVerificationService();
         this.emailSender = emailSender;
+        this.tableService = tableService;
     }
 
     @Transactional
@@ -34,6 +37,8 @@ public class SeanceService {
         List<Seance> seances = seanceRepository.findAllByName(seanceDto.getName());
         seanceVerificationService.checkSeanceOverlap(seance,seances);
         Seance savedSeance = seanceRepository.save(seance);
+
+        tableService.createFreeTable(savedSeance);
 
         return SeanceConverter.seanceDTOFromSeance(savedSeance);
     }

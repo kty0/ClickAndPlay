@@ -2,6 +2,8 @@ package fr.epita.infrastructure.persistence.table.repository;
 
 import fr.epita.domain.table.model.Table;
 import fr.epita.domain.table.port.TableRepository;
+import fr.epita.infrastructure.persistence.seance.entity.SeanceJPAEntity;
+import fr.epita.infrastructure.persistence.seance.repository.SpringDataSeanceRepository;
 import fr.epita.infrastructure.persistence.table.entity.TableJPAEntity;
 import fr.epita.infrastructure.persistence.table.utils.TableConverter;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,20 +22,25 @@ interface SpringDataTableRepository extends JpaRepository<TableJPAEntity, String
 public class TableJPARepository implements TableRepository {
 
     private final SpringDataTableRepository springDataTableRepository;
+    private final SpringDataSeanceRepository springDataSeanceRepository;
 
-    public TableJPARepository(SpringDataTableRepository springDataTableRepository) {
+    public TableJPARepository(SpringDataTableRepository springDataTableRepository, SpringDataSeanceRepository springDataSeanceRepository) {
         this.springDataTableRepository = springDataTableRepository;
+        this.springDataSeanceRepository = springDataSeanceRepository;
     }
 
     @Override
     public Table save(Table table) {
+        SeanceJPAEntity seanceJPAEntity = springDataSeanceRepository.findById(table.getSeance().getId().toString())
+                .orElseThrow(() -> new EntityNotFoundException("SeanceJPAEntity not found with id " + table.getSeance().getId()));
+
         TableJPAEntity tableJPAEntity;
         if (table.getId() == null) {
-            tableJPAEntity = TableConverter.tableJPAEntityFromDomain(table);
+            tableJPAEntity = TableConverter.tableJPAEntityFromDomain(table, seanceJPAEntity);
         } else {
             tableJPAEntity = springDataTableRepository.findById(table.getId().toString())
                     .orElseThrow(() -> new EntityNotFoundException("TableJPAEntity not found with id " + table.getId()));
-            tableJPAEntity = TableConverter.updateTableJPAEntityFromDomain(table,  tableJPAEntity);
+            tableJPAEntity = TableConverter.updateTableJPAEntityFromDomain(table,  tableJPAEntity, seanceJPAEntity);
         }
         TableJPAEntity savedTableJPAEntity = springDataTableRepository.save(tableJPAEntity);
         return TableConverter.tableFromTableJPAEntity(savedTableJPAEntity);
@@ -71,12 +78,15 @@ public class TableJPARepository implements TableRepository {
 
     @Override
     public Table update(Table table) {
+        SeanceJPAEntity seanceJPAEntity = springDataSeanceRepository.findById(table.getSeance().getId().toString())
+                .orElseThrow(() -> new EntityNotFoundException("SeanceJPAEntity not found with id " + table.getSeance().getId()));
+
         if (table.getId() == null) {
             throw new IllegalArgumentException("Table id cannot be null for update");
         }
         TableJPAEntity tableJPAEntity = springDataTableRepository.findById(table.getId().toString())
                 .orElseThrow(() -> new EntityNotFoundException("TableJPAEntity not found with id " + table.getId()));
-        tableJPAEntity = TableConverter.updateTableJPAEntityFromDomain(table,  tableJPAEntity);
+        tableJPAEntity = TableConverter.updateTableJPAEntityFromDomain(table,  tableJPAEntity, seanceJPAEntity);
         TableJPAEntity updatedTableJPAEntity = springDataTableRepository.save(tableJPAEntity);
         return TableConverter.tableFromTableJPAEntity(updatedTableJPAEntity);
     }

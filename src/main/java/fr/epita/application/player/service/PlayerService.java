@@ -1,10 +1,8 @@
 package fr.epita.application.player.service;
 
-import fr.epita.application.player.exception.InvalidRoleAssignmentException;
 import fr.epita.application.player.exception.PlayerNotFoundException;
 import fr.epita.application.player.utils.PlayerConverter;
 import fr.epita.domain.player.model.Player;
-import fr.epita.domain.player.model.Role;
 import fr.epita.domain.player.port.PlayerRepository;
 import fr.epita.presentation.player.dto.PlayerCreateDto;
 import fr.epita.presentation.player.dto.PlayerDto;
@@ -25,9 +23,6 @@ public class PlayerService {
 
     @Transactional
     public PlayerDto createPlayer(final PlayerCreateDto playerCreateDto) {
-        if (playerCreateDto.getRoles().contains(Role.JOUEUR_C)) {
-            throw new InvalidRoleAssignmentException("player must not have role JOUEUR_C at creation");
-        }
         Player player = PlayerConverter.newPlayerFromPlayerDTO(playerCreateDto);
         Player savedPlayer = playerRepository.save(player);
         return PlayerConverter.playerDTOFromPlayer(savedPlayer);

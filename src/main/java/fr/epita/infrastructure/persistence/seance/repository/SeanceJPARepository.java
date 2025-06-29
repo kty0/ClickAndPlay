@@ -9,12 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-interface SpringDataSeanceRepository extends JpaRepository<SeanceJPAEntity, String> {
-    List<SeanceJPAEntity> findAllByName(String name);
-}
 
 @Repository
 public class SeanceJPARepository implements SeanceRepository {

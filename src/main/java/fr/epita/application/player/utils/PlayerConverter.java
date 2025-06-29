@@ -8,8 +8,7 @@ public class PlayerConverter {
     public static Player newPlayerFromPlayerDTO(PlayerCreateDto playerCreateDto) {
         return new Player(
                 playerCreateDto.getEmail(),
-                playerCreateDto.getRoles(),
-                false,
+                playerCreateDto.isMember(),
                 false
         );
     }
@@ -18,9 +17,8 @@ public class PlayerConverter {
         return new Player(
                 playerDto.getId(),
                 playerDto.getEmail(),
-                playerDto.getRoles(),
-                playerDto.getMember(),
-                playerDto.getFirstSeance()
+                playerDto.isMember(),
+                playerDto.isFirstSeance()
         );
     }
 
@@ -28,9 +26,8 @@ public class PlayerConverter {
         return new PlayerDto(
                 player.getId(),
                 player.getEmail(),
-                player.getRoles(),
-                player.getMember(),
-                player.getFirstSeance()
+                player.isMember(),
+                player.isFirstSeance()
         );
     }
 }

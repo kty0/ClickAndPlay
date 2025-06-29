@@ -13,8 +13,9 @@ public class Table {
     private int maxPlayers;
     private LocalDateTime startDateTime;
     private int estimatedDurationInHours;
+    private boolean free;
 
-    public Table(UUID id, Seance seance, String gameName, int maxPlayers, LocalDateTime startDateTime, int estimatedDurationInHours) {
+    public Table(UUID id, Seance seance, String gameName, int maxPlayers, LocalDateTime startDateTime, int estimatedDurationInHours, boolean free) {
         if (id == null) {
             throw new TableException("Id must not be null");
         }
@@ -24,16 +25,18 @@ public class Table {
         this.maxPlayers = maxPlayers;
         this.startDateTime = startDateTime;
         this.estimatedDurationInHours = estimatedDurationInHours;
+        this.free = free;
 
         validate();
     }
 
-    public Table(Seance seance, String gameName, int maxPlayers,  LocalDateTime startDateTime, int estimatedDurationInHours) {
+    public Table(Seance seance, String gameName, int maxPlayers, LocalDateTime startDateTime, int estimatedDurationInHours, boolean free) {
         this.seance = seance;
         this.gameName = gameName;
         this.maxPlayers = maxPlayers;
         this.startDateTime = startDateTime;
         this.estimatedDurationInHours = estimatedDurationInHours;
+        this.free = free;
 
         validate();
     }
@@ -78,5 +81,9 @@ public class Table {
 
     public int getEstimatedDurationInHours() {
         return estimatedDurationInHours;
+    }
+
+    public boolean isFree() {
+        return free;
     }
 }

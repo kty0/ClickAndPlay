@@ -10,9 +10,8 @@ public class PlayerConverter {
         return new PlayerJPAEntity(
                 (player.getId() != null ? player.getId().toString() : null),
                 player.getEmail(),
-                player.getRoles(),
-                player.getMember(),
-                player.getFirstSeance()
+                player.isMember(),
+                player.isFirstSeance()
         );
     }
 
@@ -20,17 +19,15 @@ public class PlayerConverter {
         return new Player(
                 UUID.fromString(playerJPAEntity.getId()),
                 playerJPAEntity.getEmail(),
-                playerJPAEntity.getRoles(),
-                playerJPAEntity.getMember(),
-                playerJPAEntity.getFirstSeance()
+                playerJPAEntity.isMember(),
+                playerJPAEntity.isFirstSeance()
         );
     }
 
     public static PlayerJPAEntity updatePlayerJPAEntityFromDomain(Player player, PlayerJPAEntity playerJPAEntity) {
         playerJPAEntity.setEmail(player.getEmail());
-        playerJPAEntity.setRoles(player.getRoles());
-        playerJPAEntity.setMember(player.getMember());
-        playerJPAEntity.setFirstSeance(player.getFirstSeance());
+        playerJPAEntity.setMember(player.isMember());
+        playerJPAEntity.setFirstSeance(player.isFirstSeance());
         return playerJPAEntity;
     }
 }

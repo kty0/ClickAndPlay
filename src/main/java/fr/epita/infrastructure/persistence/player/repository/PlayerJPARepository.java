@@ -1,7 +1,6 @@
 package fr.epita.infrastructure.persistence.player.repository;
 
 import fr.epita.domain.player.model.Player;
-import fr.epita.domain.player.model.Role;
 import fr.epita.domain.player.port.PlayerRepository;
 import fr.epita.infrastructure.persistence.player.entity.PlayerJPAEntity;
 import fr.epita.infrastructure.persistence.player.utils.PlayerConverter;
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 interface SpringDataPlayerRepository extends JpaRepository<PlayerJPAEntity, String> {
-    List<PlayerJPAEntity> findByRolesContaining(Role role);
 }
 
 @Repository
@@ -70,13 +68,5 @@ public class PlayerJPARepository implements PlayerRepository {
         playerJPAEntity = PlayerConverter.updatePlayerJPAEntityFromDomain(player, playerJPAEntity);
         PlayerJPAEntity updatedPlayerJPAEntity = springDataPlayerRepository.save(playerJPAEntity);
         return PlayerConverter.playerFromPlayerJPAEntity(updatedPlayerJPAEntity);
-    }
-
-    @Override
-    public List<Player> findByRole(Role role) {
-        return springDataPlayerRepository.findByRolesContaining(role)
-                .stream()
-                .map(PlayerConverter::playerFromPlayerJPAEntity)
-                .toList();
     }
 }

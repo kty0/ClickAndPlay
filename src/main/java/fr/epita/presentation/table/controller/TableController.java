@@ -1,5 +1,7 @@
 package fr.epita.presentation.table.controller;
 
+import fr.epita.application.seance.exception.SeanceNotFoundException;
+import fr.epita.application.table.exception.FreeTableDeletionException;
 import fr.epita.application.table.exception.TableNotFoundException;
 import fr.epita.application.table.service.TableService;
 import fr.epita.domain.table.exception.TableException;
@@ -53,12 +55,12 @@ public class TableController {
         return ResponseEntity.ok().build();
     }
 
-    @ExceptionHandler({TableException.class})
+    @ExceptionHandler({TableException.class, FreeTableDeletionException.class})
     public ResponseEntity<String> handleTableException(RuntimeException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
-    @ExceptionHandler({TableNotFoundException.class, EntityNotFoundException.class})
+    @ExceptionHandler({TableNotFoundException.class, SeanceNotFoundException.class, EntityNotFoundException.class})
     public ResponseEntity<String> handleTableNotFoundException(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }

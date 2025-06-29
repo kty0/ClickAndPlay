@@ -1,9 +1,7 @@
 package fr.epita.infrastructure.persistence.player.entity;
 
-import fr.epita.domain.player.model.Role;
 import jakarta.persistence.*;
 
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -21,11 +19,6 @@ public class PlayerJPAEntity {
     private String id;
     @Column
     private String email;
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "player_roles", joinColumns = @JoinColumn(name = "player_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Set<Role> roles;
     @Column
     private boolean member;
     @Column
@@ -33,10 +26,9 @@ public class PlayerJPAEntity {
 
     public PlayerJPAEntity() {}
 
-    public PlayerJPAEntity(String id, String email, Set<Role> roles, boolean member, boolean firstSeance) {
+    public PlayerJPAEntity(String id, String email, boolean member, boolean firstSeance) {
         this.id = id;
         this.email = email;
-        this.roles = roles;
         this.member = member;
         this.firstSeance = firstSeance;
     }
@@ -53,19 +45,13 @@ public class PlayerJPAEntity {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Set<Role> getRoles() {
-        return roles;
-    }
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-    public boolean getMember() {
+    public boolean isMember() {
         return member;
     }
     public void setMember(boolean member) {
         this.member = member;
     }
-    public boolean getFirstSeance() {
+    public boolean isFirstSeance() {
         return firstSeance;
     }
     public void setFirstSeance(boolean firstSeance) {

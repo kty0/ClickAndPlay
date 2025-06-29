@@ -1,21 +1,16 @@
 package fr.epita.presentation.player.dto;
 
-import fr.epita.domain.player.model.Role;
-
-import java.util.Set;
 import java.util.UUID;
 
 public class PlayerDto {
     private UUID id;
     private String email;
-    private Set<Role> roles;
     private boolean member;
     private boolean firstSeance;
 
-    public PlayerDto(UUID id, String email, Set<Role> roles, boolean member, boolean firstSeance) {
+    public PlayerDto(UUID id, String email, boolean member, boolean firstSeance) {
         this.id = id;
         this.email = email;
-        this.roles = roles;
         this.member = member;
         this.firstSeance = firstSeance;
     }
@@ -36,15 +31,7 @@ public class PlayerDto {
         this.email = email;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public boolean getMember() {
+    public boolean isMember() {
         return member;
     }
 
@@ -52,7 +39,7 @@ public class PlayerDto {
         this.member = member;
     }
 
-    public boolean getFirstSeance() {
+    public boolean isFirstSeance() {
         return firstSeance;
     }
 

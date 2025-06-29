@@ -12,7 +12,8 @@ public class TableConverter {
                 tableCreateDto.getGameName(),
                 tableCreateDto.getMaxPlayers(),
                 tableCreateDto.getStartDateTime(),
-                tableCreateDto.getEstimatedDurationInHours()
+                tableCreateDto.getEstimatedDurationInHours(),
+                false
         );
     }
 
@@ -23,7 +24,8 @@ public class TableConverter {
                 tableDto.getGameName(),
                 tableDto.getMaxPlayers(),
                 tableDto.getStartDateTime(),
-                tableDto.getEstimatedDurationInHours()
+                tableDto.getEstimatedDurationInHours(),
+                false
         );
     }
 
@@ -34,7 +36,8 @@ public class TableConverter {
                 table.getGameName(),
                 table.getMaxPlayers(),
                 table.getStartDateTime(),
-                table.getEstimatedDurationInHours()
+                table.getEstimatedDurationInHours(),
+                table.isFree()
         );
     }
 }

@@ -8,14 +8,12 @@ import java.util.UUID;
 public class Player {
     private UUID id;
     private String email;
-    private Set<Role> roles;
     private boolean member; // cotisant
     private boolean firstSeance;
 
-    public Player(UUID id, String email, Set<Role> roles, boolean member, boolean firstSeance) {
+    public Player(UUID id, String email, boolean member, boolean firstSeance) {
         this.id = id;
         this.email = email;
-        this.roles = roles;
         this.member = member;
         this.firstSeance = firstSeance;
 
@@ -26,9 +24,8 @@ public class Player {
         validate();
     }
 
-    public Player(String email, Set<Role> roles, boolean member, boolean firstSeance) {
+    public Player(String email, boolean member, boolean firstSeance) {
         this.email = email;
-        this.roles = roles;
         this.member = member;
         this.firstSeance = firstSeance;
     }
@@ -36,9 +33,6 @@ public class Player {
     private void validate() {
         if (email == null || email.isBlank()) {
             throw new PlayerException("Email must not be null");
-        }
-        if (roles == null || roles.isEmpty()) {
-            throw new PlayerException("Roles must not be empty");
         }
     }
 
@@ -59,15 +53,11 @@ public class Player {
         return email;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public boolean getMember() {
+    public boolean isMember() {
         return member;
     }
 
-    public boolean getFirstSeance() {
+    public boolean isFirstSeance() {
         return firstSeance;
     }
 }

@@ -1,16 +1,15 @@
 package fr.epita.presentation.player.dto;
 
-import fr.epita.domain.player.model.Role;
-
-import java.util.Set;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class PlayerCreateDto {
     private String email;
-    private Set<Role> roles;
+    @Schema(example = "false")
+    private boolean member;
 
-    public PlayerCreateDto(String email, Set<Role> roles) {
+    public PlayerCreateDto(String email, boolean member) {
         this.email = email;
-        this.roles = roles;
+        this.member = member;
     }
 
     public String getEmail() {
@@ -21,11 +20,11 @@ public class PlayerCreateDto {
         this.email = email;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public boolean isMember() {
+        return member;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setMember(boolean member) {
+        this.member = member;
     }
 }

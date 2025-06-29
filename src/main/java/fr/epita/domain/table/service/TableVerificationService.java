@@ -11,10 +11,12 @@ public class TableVerificationService {
     public void verifyTable(List<Table> tables, Seance seance) {
         int totalCapacityUsed = 0;
         for (Table table : tables) {
-            verifyStartTimeWithinSeance(table, seance);
-            verifyEndBeforeSeanceEnds(table, seance);
+            if (!table.isFree()) {
+                verifyStartTimeWithinSeance(table, seance);
+                verifyEndBeforeSeanceEnds(table, seance);
 
-            totalCapacityUsed += table.getMaxPlayers();
+                totalCapacityUsed += table.getMaxPlayers();
+            }
         }
 
         if (totalCapacityUsed > seance.getSalle().capacity()) {

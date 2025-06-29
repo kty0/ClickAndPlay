@@ -30,17 +30,20 @@ public class TableJPAEntity {
     private LocalDateTime startDateTime;
     @Column
     private int estimatedDurationInHours;
+    @Column
+    private boolean free;
 
     public TableJPAEntity() {}
 
     public TableJPAEntity(String id, SeanceJPAEntity seance, String gameName, int maxPlayers,
-                          LocalDateTime startDateTime, int estimatedDurationInHours) {
+                          LocalDateTime startDateTime, int estimatedDurationInHours, boolean free) {
         this.id = id;
         this.seance = seance;
         this.gameName = gameName;
         this.maxPlayers = maxPlayers;
         this.startDateTime = startDateTime;
         this.estimatedDurationInHours = estimatedDurationInHours;
+        this.free = free;
     }
 
     public String getId() {
@@ -78,5 +81,11 @@ public class TableJPAEntity {
     }
     public void setEstimatedDurationInHours(int estimatedDurationInHours) {
         this.estimatedDurationInHours = estimatedDurationInHours;
+    }
+    public boolean isFree() {
+        return free;
+    }
+    public void setFree(boolean free) {
+        this.free = free;
     }
 }

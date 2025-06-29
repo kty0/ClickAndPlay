@@ -1,6 +1,7 @@
 package fr.epita.application.table.service;
 
 import fr.epita.application.seance.exception.SeanceNotFoundException;
+import fr.epita.application.table.exception.FreeTableDeletionException;
 import fr.epita.application.table.exception.TableNotFoundException;
 import fr.epita.application.table.utils.TableConverter;
 import fr.epita.domain.common.port.EmailSender;
@@ -14,6 +15,7 @@ import fr.epita.presentation.table.dto.TableDto;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +48,25 @@ public class TableService {
     }
 
     @Transactional
+    public void createFreeTable(Seance seance) {
+        LocalDateTime startDateTime = seance.getDate();
+        int durationInMinutes = seance.getDurationInHours() * 60;
+        int estimatedDurationInMinutes = durationInMinutes - 15;
+        int estimatedDurationInHours = estimatedDurationInMinutes / 60;
+
+        Table freeTable = new Table(
+                seance,
+                "Libre",
+                seance.getSalle().capacity(),
+                startDateTime,
+                estimatedDurationInHours,
+                true
+        );
+
+        tableRepository.save(freeTable);
+    }
+
+    @Transactional
     public TableDto updateTable(final TableDto tableDto) {
         Seance seance = seanceRepository.findById(tableDto.getSeanceId().toString())
                 .orElseThrow(() -> new SeanceNotFoundException("Seance not found with ID: " + tableDto.getSeanceId()));
@@ -63,6 +84,10 @@ public class TableService {
     public void deleteTable(final String id) {
         Table table = tableRepository.findById(id)
                 .orElseThrow(() -> new TableNotFoundException("Table not found with ID: " + id));
+
+        if (table.isFree()) {
+            throw new FreeTableDeletionException("free table cannot be deleted");
+        }
 
         tableRepository.delete(table);
         emailSender.sendEmail(
