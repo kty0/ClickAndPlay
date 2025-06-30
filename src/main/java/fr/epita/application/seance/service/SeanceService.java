@@ -56,17 +56,17 @@ public class SeanceService {
 
     @Transactional
     public void deleteSeance(String id) {
-        Seance seance = seanceRepository.findById(id).orElse(null);
-        if( seance != null ) {
-            seanceRepository.delete(seance);
-            emailSender.sendEmail( // a modifier pour supprimer pour tous les inscrits
-                "All users registered to the seance",
-                "Seance Deleted",
-                "The seance with id " + id + " has been successfully deleted."
-                );
-        } else {
-            throw new SeanceNotFoundException("the seance with id " + id + " does not exist");
-        }
+        Seance seance = seanceRepository.findById(id)
+                .orElseThrow(() -> new SeanceNotFoundException("Seance with id: " + id + " not found"));
+
+        List<String> emails = seanceRepository.getEmails(seance);
+        emailSender.sendEmailToMultipleRecipients(
+            emails,
+            "Seance Deleted",
+            "The seance with id " + id + " has been successfully deleted."
+            );
+
+        seanceRepository.delete(seance);
     }
 
     public List<SeanceDto> getAllSeances() {

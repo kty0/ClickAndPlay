@@ -5,6 +5,7 @@ import fr.epita.application.table.exception.FreeTableDeletionException;
 import fr.epita.application.table.exception.TableNotFoundException;
 import fr.epita.application.table.utils.TableConverter;
 import fr.epita.domain.common.port.EmailSender;
+import fr.epita.domain.player.model.Player;
 import fr.epita.domain.seance.model.Seance;
 import fr.epita.domain.seance.port.SeanceRepository;
 import fr.epita.domain.table.model.Table;
@@ -89,12 +90,17 @@ public class TableService {
             throw new FreeTableDeletionException("free table cannot be deleted");
         }
 
-        tableRepository.delete(table);
-        emailSender.sendEmail(
-                "All users registered to the table",
+        List<String> emails = new ArrayList<>();
+        for (Player player : table.getPlayers()) {
+            emails.add(player.getEmail());
+        }
+        emailSender.sendEmailToMultipleRecipients(
+                emails,
                 "Table deleted",
                 "The table with id " +  id + " has been deleted"
         );
+
+        tableRepository.delete(table);
     }
 
     public List<TableDto> getAllTables() {

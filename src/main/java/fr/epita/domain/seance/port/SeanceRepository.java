@@ -12,4 +12,5 @@ public interface SeanceRepository {
     void delete(Seance seance);
     Seance update(Seance seance);
     List<Seance> findAll();
+    List<String> getEmails(Seance seance);
 }

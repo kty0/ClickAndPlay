@@ -74,4 +74,10 @@ public class SeanceJPAEntity {
     public void setSalle(SalleJPAEntity salle) {
         this.salle = salle;
     }
+    public List<TableJPAEntity> getTables() {
+        return tables;
+    }
+    public void setTables(List<TableJPAEntity> tables) {
+        this.tables = tables;
+    }
 }

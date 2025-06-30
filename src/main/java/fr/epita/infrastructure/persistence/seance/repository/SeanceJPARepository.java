@@ -2,12 +2,14 @@ package fr.epita.infrastructure.persistence.seance.repository;
 
 import fr.epita.domain.seance.model.Seance;
 import fr.epita.domain.seance.port.SeanceRepository;
+import fr.epita.infrastructure.persistence.player.entity.PlayerJPAEntity;
 import fr.epita.infrastructure.persistence.seance.entity.SeanceJPAEntity;
 import fr.epita.infrastructure.persistence.seance.utils.SeanceConverter;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -73,5 +75,16 @@ public class SeanceJPARepository implements SeanceRepository {
                 .stream()
                 .map(SeanceConverter::seanceFromSeanceJPAEntity)
                 .toList();
+    }
+
+    @Override
+    public List<String> getEmails(Seance seance) {
+        SeanceJPAEntity seanceJPAEntity = springDataJpaSeanceRepository.findById(seance.getId().toString())
+                .orElseThrow(() -> new EntityNotFoundException("SeanceJPAEntity not found with id: " + seance.getId()));
+        return seanceJPAEntity.getTables().stream()
+                .flatMap(table -> table.getPlayers().stream())
+                .map(PlayerJPAEntity::getEmail)
+                .distinct()
+                .collect(Collectors.toList());
     }
 }
